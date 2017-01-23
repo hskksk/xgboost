@@ -88,7 +88,12 @@ class ColMaker: public TreeUpdater {
                         RegTree* p_tree) {
       this->InitData(gpair, *p_fmat, *p_tree);
       this->InitNewNode(qexpand_, gpair, *p_fmat, *p_tree);
-      for (int depth = 0; depth < param.max_depth; ++depth) {
+      int max_depth = param.max_depth;
+      if(param.random_max_depth==1){
+        auto& rnd = common::GlobalRandom();
+      	max_depth = std::uniform_int_distribution<>(2, max_depth)(rnd);
+      }
+      for (int depth = 0; depth < max_depth; ++depth) {
         this->FindSplit(depth, qexpand_, gpair, p_fmat, p_tree);
         this->ResetPosition(qexpand_, p_fmat, *p_tree);
         this->UpdateQueueExpand(*p_tree, &qexpand_);

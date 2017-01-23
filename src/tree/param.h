@@ -29,6 +29,8 @@ struct TrainParam : public dmlc::Parameter<TrainParam> {
   float min_split_loss;
   // maximum depth of a tree
   int max_depth;
+  // use max_depth sampled from [0,max_depth] if random_max_depth = 1
+  int random_max_depth;
   //----- the rest parameters are less important ----
   // minimum amount of hessian(weight) allowed in a child
   float min_child_weight;
@@ -77,6 +79,8 @@ struct TrainParam : public dmlc::Parameter<TrainParam> {
             "Minimum loss reduction required to make a further partition.");
     DMLC_DECLARE_FIELD(max_depth).set_lower_bound(0).set_default(6).describe(
         "Maximum depth of the tree.");
+    DMLC_DECLARE_FIELD(random_max_depth).set_lower_bound(0).set_default(0).describe(
+        "Use max_depth sampled from [2,max_depth] if random_max_depth=1.");
     DMLC_DECLARE_FIELD(min_child_weight)
         .set_lower_bound(0.0f)
         .set_default(1.0f)
